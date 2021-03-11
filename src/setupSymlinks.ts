@@ -2,7 +2,7 @@ import log from 'fancy-log';
 import colors from 'ansi-colors';
 import fs from 'fs';
 import path from 'path';
-import paths from './paths.js';
+import paths from './paths';
 import { getSymlinks } from './getSymlinks';
 
 /**

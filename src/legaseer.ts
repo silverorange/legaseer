@@ -3,14 +3,14 @@ import log from 'fancy-log';
 import colors from 'ansi-colors';
 import chokidar from 'chokidar';
 import lockfile from 'proper-lockfile';
-import { getPhpWatchPaths } from './getPhpWatchPaths.js';
-import { queue } from './hashQueue.js';
-import { composerDumpAutoload } from './composerDumpAutoload.js';
-import { lintPhpSyntax } from './lintPhpSyntax.js';
-import { setupSymlinks } from './setupSymlinks.js';
-import { teardownSymlinks } from './teardownSymlinks.js';
-import { compileLess, compileAllLess } from './compileLess.js';
-import paths from './paths.js';
+import { getPhpWatchPaths } from './getPhpWatchPaths';
+import { queue } from './hashQueue';
+import { composerDumpAutoload } from './composerDumpAutoload';
+import { lintPhpSyntax } from './lintPhpSyntax';
+import { setupSymlinks } from './setupSymlinks';
+import { teardownSymlinks } from './teardownSymlinks';
+import { compileLess, compileAllLess } from './compileLess';
+import paths from './paths';
 
 async function main() {
   let release: () => Promise<void>;
