@@ -69,11 +69,11 @@ async function getDependencies(fileName: string, allFiles: Set<string>) {
     const dependants = filesArray
       .map((path) => {
         const relativePath = getRelativePath(path, file);
-        const imports = importMap[path];
+        const pathImports = importMap[path];
 
         if (
           !currentDependencies[path] &&
-          imports.some((importFile) =>
+          pathImports.some((importFile) =>
             isLessImportEqual(importFile, relativePath)
           )
         ) {

@@ -1,7 +1,9 @@
-type QueueType = { [key: string]: () => Promise<any> };
+interface Queue {
+  [key: string]: () => Promise<any>;
+}
 
-const hashQueue: QueueType = {};
-const hashRunning: QueueType = {};
+const hashQueue: Queue = {};
+const hashRunning: Queue = {};
 
 /**
  * @param {string} key
