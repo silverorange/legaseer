@@ -1,5 +1,5 @@
 import fs from 'fs';
-import { relative } from 'path';
+import { relative, dirname } from 'path';
 import { execFile } from 'child_process';
 import log from 'fancy-log';
 import colors from 'ansi-colors';
@@ -95,25 +95,13 @@ function getOutputFileName(fileName: string) {
   return `${paths.compiled}/${fileName.split('/').slice(1).join('/')}`;
 }
 
-// function isRelative(url: string) {
-//   return !/^(?:https?:|ftp:|data:|\/\/)/.test(url);
-// }
-
 function rebaseUrls(css: string, from: string, to: string) {
   return postcss([])
     .use(postcssUrl({ url: 'rebase' }))
     .process(css, {
       from,
       to,
-    })
-    .toString();
-  // return rework(css)
-  //   .use(
-  //     reworkUrl(function (url: string) {
-  //       return isRelative(url) ? `../${url}` : url;
-  //     })
-  //   )
-  //   .toString();
+    });
 }
 
 function compileLessFile(fileName: string) {
@@ -133,18 +121,25 @@ function compileLessFile(fileName: string) {
         }
       } else {
         const outputFileName = getOutputFileName(fileName);
-        const css = rebaseUrls(stdout, fileName, outputFileName);
-        fs.writeFile(outputFileName, css, (writeError) => {
-          if (writeError) {
-            reject(writeError);
-          }
-          log(
-            'Compiled',
-            colors.cyan(fileName),
-            'to',
-            colors.cyan(outputFileName)
-          );
-          resolve();
+        rebaseUrls(stdout, fileName, outputFileName).then((css) => {
+          fs.mkdir(dirname(outputFileName), { recursive: true }, (dirError) => {
+            if (dirError) {
+              reject(dirError);
+            } else {
+              fs.writeFile(outputFileName, css.toString(), (writeError) => {
+                if (writeError) {
+                  reject(writeError);
+                }
+                log(
+                  'Compiled',
+                  colors.cyan(fileName),
+                  'to',
+                  colors.cyan(outputFileName)
+                );
+                resolve();
+              });
+            }
+          });
         });
       }
     });
