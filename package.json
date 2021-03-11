@@ -1,5 +1,6 @@
 {
-  "name": "legaseer",
+  "name": "@silverorange/legaseer",
+  "version": "1.0.1",
   "description": "silverorange legacy file watcher",
   "repository": {
     "type": "git",
@@ -10,10 +11,10 @@
   ],
   "license": "MIT",
   "publishConfig": {
-    "registry": "https://registry.npmjs.org/"
+    "registry": "https://npm.pkg.github.com"
   },
   "bin": {
-    "legaseer": "dist/src/legaseer.js"
+    "legaseer": "dist/legaseer.js"
   },
   "engines": {
     "node": "^14.0.0"
