@@ -8,12 +8,7 @@
   "contributors": [
     "Michael Gauthier <mike@silverorange.com>"
   ],
-  "licenses": [
-    {
-      "type": "MIT",
-      "url": "http://opensource.org/licenses/MIT"
-    }
-  ],
+  "license": "MIT",
   "publishConfig": {
     "registry": "https://registry.npmjs.org/"
   },
