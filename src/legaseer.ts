@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 import readline from 'readline';
 import log from 'fancy-log';
 import colors from 'ansi-colors';
