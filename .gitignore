@@ -5,3 +5,6 @@
 
 # TypeScript outpit
 /dist
+
+# misc
+yarn-error.log
