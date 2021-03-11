@@ -11,6 +11,7 @@ import { setupSymlinks } from './setupSymlinks';
 import { teardownSymlinks } from './teardownSymlinks';
 import { compileLess, compileAllLess } from './compileLess';
 import paths from './paths';
+import { writeCompiledFlag } from './writeCompiledFlag';
 
 async function main() {
   let release: () => Promise<void>;
@@ -39,7 +40,10 @@ async function main() {
       // It's still called correctly after the initial add events.
       if (!ready) {
         queue('classmap', composerDumpAutoload);
-        queue('compile', compileAllLess(lessFiles));
+        queue('compile', async () => {
+          await compileAllLess(lessFiles)();
+          await writeCompiledFlag();
+        });
         log(colors.green('Ready and listening for file changes.'));
         ready = true;
       }
