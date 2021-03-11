@@ -13,7 +13,6 @@ export default {
   work: workDir,
   vendors: vendorDirs,
   packages: packagesDir,
-  composerLock: 'composer.lock',
   less: [
     'www/styles/*.less',
     'www/styles/**/*.less',
@@ -28,11 +27,7 @@ export default {
     'www/*.php',
     'www/admin/*.php',
   ],
-  min: 'www/min',
   compiled: 'www/compiled',
-  minified: 'www/min',
   compiledFlag: 'www/.concentrate-compiled',
-  minifiedFlag: 'www/.concentrate-minified',
-  combinedFlag: 'www/.concentrate-combined',
   symlinkSuffix: '.original',
 };
