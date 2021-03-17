@@ -1,6 +1,6 @@
 {
-  "name": "@silverorange/legaseer",
-  "version": "1.0.1",
+  "name": "silverorange-legaseer",
+  "version": "1.0.2",
   "description": "silverorange legacy file watcher",
   "repository": {
     "type": "git",
@@ -10,9 +10,6 @@
     "Michael Gauthier <mike@silverorange.com>"
   ],
   "license": "MIT",
-  "publishConfig": {
-    "registry": "https://npm.pkg.github.com"
-  },
   "bin": {
     "legaseer": "dist/legaseer.js"
   },
