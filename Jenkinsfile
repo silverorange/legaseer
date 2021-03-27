@@ -12,14 +12,15 @@ pipeline {
     stages {
         stage('Install') {
             steps {
-                sh 'yarn install'
+                sh 'n --download engine'
+                sh 'n exec engine yarn install'
             }
         }
 
         stage('Lint') {
             steps {
-                sh 'yarn lint'
-                sh 'yarn prettier'
+                sh 'n exec engine yarn lint'
+                sh 'n exec engine yarn prettier'
             }
             post {
                 failure {
@@ -38,7 +39,7 @@ pipeline {
 
         stage('Build') {
             steps {
-                sh 'yarn build'
+                sh 'n exec engine yarn build'
             }
             post {
                 failure {
