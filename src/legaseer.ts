@@ -5,7 +5,7 @@ import log from 'fancy-log';
 import colors from 'ansi-colors';
 import chokidar from 'chokidar';
 import lockfile from 'proper-lockfile';
-import { getPhpWatchPaths } from './getPhpWatchPaths';
+import { getPhpIgnorePaths, getPhpWatchPaths } from './getPhpWatchPaths';
 import { queue } from './hashQueue';
 import { composerDumpAutoload } from './composerDumpAutoload';
 import { lintPhpSyntax } from './lintPhpSyntax';
@@ -29,14 +29,19 @@ async function main() {
     process.exit(1);
   }
 
+  // Set up symlinks beore getting PHP paths.
+  setupSymlinks();
+
   const phpPaths = await getPhpWatchPaths();
+  const phpIgnorePaths = await getPhpIgnorePaths();
   const lessFiles = new Set<string>();
   let ready = false;
 
-  setupSymlinks();
-
   const watcher = chokidar
-    .watch([...phpPaths, ...paths.less])
+    .watch([...phpPaths, ...paths.less], {
+      ignored: phpIgnorePaths,
+      followSymlinks: true,
+    })
     .on('ready', () => {
       // For whatever reason on Linux, the ready event is called multiple times.
       // It's still called correctly after the initial add events.

@@ -43,13 +43,9 @@ async function getWwwPaths(wwwPaths: string[]) {
   return globby(wwwPaths, { expandDirectories: false });
 }
 
-/**
- * Chokidar can't glob symlink directories properly so explicitly list
- * each directory instead.
- */
-export async function getPhpWatchPaths() {
+async function getPhpSymlinkPaths() {
   const vendorPaths = await getExistingPaths(paths.vendors);
-  const symlinkPaths = (
+  return (
     await Promise.all(
       vendorPaths.map(async (vendorPath) =>
         getSymlinkPaths(
@@ -60,6 +56,32 @@ export async function getPhpWatchPaths() {
       )
     )
   ).flat();
+}
+
+export async function getPhpIgnorePaths() {
+  const symlinkPaths = await getPhpSymlinkPaths();
+
+  return symlinkPaths
+    .map((symlinkPath) => [
+      `${symlinkPath}/vendor/*`,
+      `${symlinkPath}/.git/*`,
+      `${symlinkPath}/node_modules/*`,
+    ])
+    .flat();
+}
+
+/**
+ * Chokidar can't glob symlink directories properly so explicitly list
+ * each directory instead.
+ */
+export async function getPhpWatchPaths() {
+  const symlinkPaths = await getPhpSymlinkPaths();
+  const symlinkFilePaths = symlinkPaths
+    .map((symlinkPath) => [
+      `${symlinkPath}/**/*.php`,
+      `${symlinkPath}/**/*.less`,
+    ])
+    .flat();
 
   const wwwPaths = await getWwwPaths(
     paths.php.filter((testPath) => testPath === wwwPath)
@@ -68,6 +90,6 @@ export async function getPhpWatchPaths() {
   return [
     ...paths.php.filter((testPath) => testPath !== wwwPath),
     ...wwwPaths,
-    ...symlinkPaths,
+    ...symlinkFilePaths,
   ];
 }
