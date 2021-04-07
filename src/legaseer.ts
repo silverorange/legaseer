@@ -58,7 +58,7 @@ async function main() {
     .on('all', (event, path) => {
       if (/\.php$/i.test(path) && ready) {
         queue('classmap', composerDumpAutoload);
-        if (event === 'change') {
+        if (event === 'change' || event === 'add') {
           queue(`lint${path}`, lintPhpSyntax(path));
         }
       }
