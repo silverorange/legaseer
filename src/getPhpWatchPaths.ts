@@ -76,11 +76,11 @@ export async function getPhpIgnorePaths() {
  */
 export async function getPhpWatchPaths() {
   const symlinkPaths = await getPhpSymlinkPaths();
+  // Note: We don't want to include LESS files within the PHP package as they
+  // should already be wymlinked under the project's www directory and will
+  // be watched using the default paths.less paths.
   const symlinkFilePaths = symlinkPaths
-    .map((symlinkPath) => [
-      `${symlinkPath}/**/*.php`,
-      `${symlinkPath}/**/*.less`,
-    ])
+    .map((symlinkPath) => [`${symlinkPath}/**/*.php`])
     .flat();
 
   const wwwPaths = await getWwwPaths(
