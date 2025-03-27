@@ -27,7 +27,7 @@ function setup(symlinks: string) {
               '/so',
               'packages',
               packageName,
-              paths.work
+              paths.work,
             );
 
             if (
@@ -37,7 +37,7 @@ function setup(symlinks: string) {
             ) {
               fs.renameSync(
                 packageLinkPath,
-                `${packageLinkPath}${paths.symlinkSuffix}`
+                `${packageLinkPath}${paths.symlinkSuffix}`,
               );
               fs.symlinkSync(packageRealPath, packageLinkPath);
 

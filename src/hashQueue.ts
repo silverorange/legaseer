@@ -1,6 +1,4 @@
-interface Queue {
-  [key: string]: () => Promise<any>;
-}
+type Queue = Record<string, (() => Promise<unknown>) | undefined>;
 
 const hashQueue: Queue = {};
 const hashRunning: Queue = {};
@@ -11,13 +9,13 @@ const hashRunning: Queue = {};
 async function runQueued(key: string) {
   if (hashQueue[key] && !hashRunning[key]) {
     hashRunning[key] = hashQueue[key];
-    delete hashQueue[key];
+    hashQueue[key] = undefined;
     try {
       await hashRunning[key]();
     } catch (e) {
       console.error(e);
     }
-    delete hashRunning[key];
+    hashRunning[key] = undefined;
     runQueued(key);
   }
 }

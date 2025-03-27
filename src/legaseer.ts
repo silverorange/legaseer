@@ -15,12 +15,19 @@ import { compileLess, compileAllLess } from './compileLess';
 import paths from './paths';
 import { writeCompiledFlag } from './writeCompiledFlag';
 
+function isNodeError(error: unknown): error is NodeJS.ErrnoException {
+  return (
+    error instanceof Error &&
+    typeof (error as NodeJS.ErrnoException).code === 'string'
+  );
+}
+
 async function main() {
   let release: () => Promise<void>;
   try {
     release = await lockfile.lock('./');
   } catch (e) {
-    if (e.code === 'ELOCKED') {
+    if (isNodeError(e) && e.code === 'ELOCKED') {
       console.error('Watcher is already running.');
     } else {
       console.error('Could not acquire lock file.');
