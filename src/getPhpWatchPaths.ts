@@ -15,7 +15,7 @@ async function getExistingPaths(pathsToTest: string[]) {
       } catch (e) {
         return false;
       }
-    })
+    }),
   );
 
   return pathsToTest.filter((_, index) => exists[index]);
@@ -25,7 +25,7 @@ async function getSymlinkPaths(pathsToTest: string[]) {
   const stats = await Promise.all(
     pathsToTest.map((pathToTest) => {
       return fs.lstat(pathToTest);
-    })
+    }),
   );
   return pathsToTest.filter((_, index) => stats[index].isSymbolicLink());
 }
@@ -50,10 +50,10 @@ async function getPhpSymlinkPaths() {
       vendorPaths.map(async (vendorPath) =>
         getSymlinkPaths(
           (await fs.readdir(vendorPath)).map((dir) =>
-            path.join(vendorPath, dir)
-          )
-        )
-      )
+            path.join(vendorPath, dir),
+          ),
+        ),
+      ),
     )
   ).flat();
 }
@@ -84,7 +84,7 @@ export async function getPhpWatchPaths() {
     .flat();
 
   const wwwPaths = await getWwwPaths(
-    paths.php.filter((testPath) => testPath === wwwPath)
+    paths.php.filter((testPath) => testPath === wwwPath),
   );
 
   return [

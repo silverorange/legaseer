@@ -49,7 +49,7 @@ async function getDependencies(fileName: string, allFiles: Set<string>) {
     filesArray.map(async (path) => {
       const less = await fsPromises.readFile(path, { encoding: 'utf8' });
       return getImports(less);
-    })
+    }),
   );
 
   const importMap = imports.reduce<{ [key: string]: string[] }>(
@@ -57,12 +57,12 @@ async function getDependencies(fileName: string, allFiles: Set<string>) {
       map[filesArray[index]] = currentImports;
       return map;
     },
-    {}
+    {},
   );
 
   function getRecursiveDependencies(
     file: string,
-    currentDependencies: { [key: string]: true }
+    currentDependencies: { [key: string]: true },
   ): string[] {
     currentDependencies[file] = true;
 
@@ -74,7 +74,7 @@ async function getDependencies(fileName: string, allFiles: Set<string>) {
         if (
           !currentDependencies[path] &&
           pathImports.some((importFile) =>
-            isLessImportEqual(importFile, relativePath)
+            isLessImportEqual(importFile, relativePath),
           )
         ) {
           currentDependencies[path] = true;
@@ -134,7 +134,7 @@ function compileLessFile(fileName: string) {
                   'Compiled',
                   colors.cyan(fileName),
                   'to',
-                  colors.cyan(outputFileName)
+                  colors.cyan(outputFileName),
                 );
                 resolve();
               });
@@ -150,7 +150,7 @@ export function compileAllLess(lessFiles: Set<string>) {
   log('Compiling all LESS files');
   return function compileAll() {
     return Promise.all(
-      Array.from(lessFiles).map((fileName) => compileLessFile(fileName))
+      Array.from(lessFiles).map((fileName) => compileLessFile(fileName)),
     );
   };
 }
