@@ -1,0 +1,40 @@
+name: Pull Requests
+
+on:
+  pull_request:
+    branches:
+      - master
+
+jobs:
+  runner:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out repository code
+        uses: actions/checkout@v4
+
+      # We install node and enable corepack first.
+      - name: Setup corepack
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: 'package.json'
+      - run: npm i -g --force corepack && corepack enable
+
+      # We then reinstall node and tell it to use
+      # the pnpm cache now that it can access the
+      # pnpm binary thanks to corepack previously
+      # being enabled. Not great but it looks like
+      # actions/setup-node doesn't enable corepack
+      # before trying to create the cache.
+      - name: Setup node and install dependencies
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: 'package.json'
+          cache: 'pnpm'
+      - run: pnpm install --frozen-lockfile
+
+      - name: Run tests
+        run: |
+          pnpm lint
+          pnpm prettier
+          pnpm build
