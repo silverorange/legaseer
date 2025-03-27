@@ -12,7 +12,7 @@ async function getExistingPaths(pathsToTest: string[]) {
         // eslint-disable-next-line no-bitwise
         await fs.access(pathToTest, fsConstants.R_OK | fsConstants.X_OK);
         return true;
-      } catch (e) {
+      } catch {
         return false;
       }
     }),
