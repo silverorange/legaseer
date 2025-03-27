@@ -17,7 +17,7 @@
     "node": "^22.14.0"
   },
   "scripts": {
-    "start": "ts-node src/legaseer.ts",
+    "start": "tsx src/legaseer.ts",
     "build": "tsc",
     "lint": "eslint src/**/*.ts",
     "prettier": "prettier --list-different 'src/**/*.ts'",
@@ -44,9 +44,9 @@
     "eslint-config-prettier": "^8.1.0",
     "eslint-plugin-import": "^2.22.1",
     "eslint-plugin-prettier": "^3.3.1",
-    "prettier": "^2.2.1",
-    "ts-node": "^10.9.1",
-    "typescript": "^4.2.3"
+    "prettier": "^3.5.3",
+    "tsx": "^4.19.3",
+    "typescript": "^5.8.2"
   },
   "packageManager": "pnpm@8.15.4+sha256.cea6d0bdf2de3a0549582da3983c70c92ffc577ff4410cbf190817ddc35137c2"
 }
