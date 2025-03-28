@@ -19,7 +19,7 @@
   "scripts": {
     "start": "tsx src/legaseer.ts",
     "build": "tsc",
-    "lint": "eslint src/**/*.ts",
+    "lint": "eslint 'src/**/*.ts'",
     "prettier": "prettier --list-different 'src/**/*.ts'",
     "prepublish": "tsc"
   },
