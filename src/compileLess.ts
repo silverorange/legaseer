@@ -4,8 +4,8 @@ import { execFile } from 'child_process';
 import log from 'fancy-log';
 import colors from 'ansi-colors';
 import postcss from 'postcss';
-import postcssUrl from 'postcss-url';
 import paths from './paths';
+import { rebasePlugin } from './rebasePlugin';
 
 const fsPromises = fs.promises;
 
@@ -95,13 +95,12 @@ function getOutputFileName(fileName: string) {
   return `${paths.compiled}/${fileName.split('/').slice(1).join('/')}`;
 }
 
-function rebaseUrls(css: string, from: string, to: string) {
-  return postcss([])
-    .use(postcssUrl({ url: 'rebase' }))
-    .process(css, {
-      from,
-      to,
-    });
+async function rebaseUrls(css: string, from: string, to: string) {
+  const result = await postcss([rebasePlugin({ from, to })]).process(css, {
+    from,
+    to,
+  });
+  return result.css;
 }
 
 function compileLessFile(fileName: string) {
