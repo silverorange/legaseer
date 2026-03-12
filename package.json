@@ -40,7 +40,7 @@
     "@types/minimist": "^1.2.1",
     "@types/node": "^22.13.14",
     "@types/proper-lockfile": "^4.1.1",
-    "eslint": "^9.20.1",
+    "eslint": "^9.39.4",
     "eslint-config-prettier": "^10.0.1",
     "prettier": "^3.5.3",
     "tsx": "^4.19.3",
