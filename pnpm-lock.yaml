@@ -30,6 +30,9 @@ importers:
         specifier: ^4.1.2
         version: 4.1.2
     devDependencies:
+      '@csstools/postcss-rebase-url':
+        specifier: ^3.0.0
+        version: 3.0.0(postcss@8.5.8)
       '@eslint/eslintrc':
         specifier: ^3.3.5
         version: 3.3.5
@@ -68,6 +71,22 @@ importers:
         version: 8.57.0(eslint@10.0.3)(typescript@5.9.3)
 
 packages:
+
+  '@csstools/css-parser-algorithms@4.0.0':
+    resolution: {integrity: sha512-+B87qS7fIG3L5h3qwJ/IFbjoVoOe/bpOdh9hAjXbvx0o8ImEmUsGXN0inFOnk2ChCFgqkkGFQ+TpM5rbhkKe4w==}
+    engines: {node: '>=20.19.0'}
+    peerDependencies:
+      '@csstools/css-tokenizer': ^4.0.0
+
+  '@csstools/css-tokenizer@4.0.0':
+    resolution: {integrity: sha512-QxULHAm7cNu72w97JUNCBFODFaXpbDg+dP8b/oWFAZ2MTRppA3U00Y2L1HqaS4J6yBqxwa/Y3nMBaxVKbB/NsA==}
+    engines: {node: '>=20.19.0'}
+
+  '@csstools/postcss-rebase-url@3.0.0':
+    resolution: {integrity: sha512-RgHxACwQ5AUvk3Wew9K1F0TCWxoTuVdx9UYgxYrMpW2b7t8cSP6Uufb8Hte0sL/KtjJY8K5HOP2MtyLaMABUOA==}
+    engines: {node: '>=20.19.0'}
+    peerDependencies:
+      postcss: ^8.4
 
   '@esbuild/aix-ppc64@0.27.4':
     resolution: {integrity: sha512-cQPwL2mp2nSmHHJlCyoXgHGhbEPMrEEU5xhkcy3Hs/O7nGZqEpZ2sUtLaL9MORLtDfRvVl2/3PAuEkYZH0Ty8Q==}
@@ -847,6 +866,18 @@ packages:
     engines: {node: '>=10'}
 
 snapshots:
+
+  '@csstools/css-parser-algorithms@4.0.0(@csstools/css-tokenizer@4.0.0)':
+    dependencies:
+      '@csstools/css-tokenizer': 4.0.0
+
+  '@csstools/css-tokenizer@4.0.0': {}
+
+  '@csstools/postcss-rebase-url@3.0.0(postcss@8.5.8)':
+    dependencies:
+      '@csstools/css-parser-algorithms': 4.0.0(@csstools/css-tokenizer@4.0.0)
+      '@csstools/css-tokenizer': 4.0.0
+      postcss: 8.5.8
 
   '@esbuild/aix-ppc64@0.27.4':
     optional: true
