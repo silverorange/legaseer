@@ -14,6 +14,7 @@ import { teardownSymlinks } from './teardownSymlinks';
 import { compileLess, compileAllLess } from './compileLess';
 import paths from './paths';
 import { writeCompiledFlag } from './writeCompiledFlag';
+import { globby } from 'globby';
 
 function isNodeError(error: unknown): error is NodeJS.ErrnoException {
   return (
@@ -40,13 +41,19 @@ async function main() {
   setupSymlinks();
 
   const phpPaths = await getPhpWatchPaths();
-  const phpIgnorePaths = await getPhpIgnorePaths();
+  const phpIgnorePaths = (await getPhpIgnorePaths()).map((path) => `!${path}`);
   const lessFiles = new Set<string>();
+
   let ready = false;
 
+  const watchPaths = await globby([
+    ...phpPaths,
+    ...paths.less,
+    ...phpIgnorePaths,
+  ]);
+
   const watcher = chokidar
-    .watch([...phpPaths, ...paths.less], {
-      ignored: phpIgnorePaths,
+    .watch(watchPaths, {
       followSymlinks: true,
     })
     .on('ready', () => {
