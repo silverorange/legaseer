@@ -60,12 +60,11 @@ async function getPhpSymlinkPaths() {
 
 export async function getPhpIgnorePaths() {
   const symlinkPaths = await getPhpSymlinkPaths();
-
   return symlinkPaths
     .map((symlinkPath) => [
-      `${symlinkPath}/vendor/*`,
-      `${symlinkPath}/.git/*`,
-      `${symlinkPath}/node_modules/*`,
+      `!${symlinkPath}/vendor/*`,
+      `!${symlinkPath}/.git/*`,
+      `!${symlinkPath}/node_modules/*`,
     ])
     .flat();
 }
