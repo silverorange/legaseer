@@ -25,6 +25,7 @@
     "prepublish": "tsc"
   },
   "dependencies": {
+    "@csstools/postcss-rebase-url": "^3.0.0",
     "ansi-colors": "^4.1.1",
     "chokidar": "^5.0.0",
     "fancy-log": "^2.0.0",
@@ -34,7 +35,6 @@
     "proper-lockfile": "^4.1.2"
   },
   "devDependencies": {
-    "@csstools/postcss-rebase-url": "^3.0.0",
     "@eslint/eslintrc": "^3.3.5",
     "@eslint/js": "^10.0.1",
     "@types/fancy-log": "^2.0.2",
