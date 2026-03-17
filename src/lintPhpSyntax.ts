@@ -1,6 +1,6 @@
+import { execFile } from 'node:child_process';
 import log from 'fancy-log';
 import colors from 'ansi-colors';
-import { execFile } from 'child_process';
 
 export function lintPhpSyntax(fileName: string) {
   return async function lint() {

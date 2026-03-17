@@ -1,7 +1,7 @@
-import { constants as fsConstants, promises as fs } from 'fs';
+import { constants as fsConstants, promises as fs } from 'node:fs';
+import path from 'node:path';
 import { globby } from 'globby';
-import path from 'path';
-import paths from './paths';
+import paths from './paths.js';
 
 const wwwPath = 'www/*.php';
 

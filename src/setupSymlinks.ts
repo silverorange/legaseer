@@ -1,9 +1,9 @@
+import fs from 'node:fs';
+import path from 'node:path';
 import log from 'fancy-log';
 import colors from 'ansi-colors';
-import fs from 'fs';
-import path from 'path';
-import paths from './paths';
-import { getSymlinks } from './getSymlinks';
+import paths from './paths.js';
+import { getSymlinks } from './getSymlinks.js';
 
 /**
  * Replaces vendor package directories with symlinks that point to active
