@@ -8,13 +8,13 @@
     "allowSyntheticDefaultImports": true,
     "strict": true,
     "forceConsistentCasingInFileNames": true,
-    "module": "CommonJS",
-    "moduleResolution": "node10",
+    "module": "NodeNext",
+    "moduleResolution": "nodenext",
     "resolveJsonModule": false,
     "isolatedModules": false,
     "noEmit": false,
     "outDir": "dist",
-    "typeRoots": ["./node_modules/@types", "./src/@types"]
+    "typeRoots": ["./node_modules/@types"]
   },
   "exclude": ["node_modules"],
   "include": ["src"]

@@ -1,7 +1,7 @@
-import { constants as fsConstants, promises as fs } from 'fs';
-import globby from 'globby';
-import path from 'path';
-import paths from './paths';
+import { constants as fsConstants, promises as fs } from 'node:fs';
+import path from 'node:path';
+import { globby } from 'globby';
+import paths from './paths.js';
 
 const wwwPath = 'www/*.php';
 
@@ -60,7 +60,6 @@ async function getPhpSymlinkPaths() {
 
 export async function getPhpIgnorePaths() {
   const symlinkPaths = await getPhpSymlinkPaths();
-
   return symlinkPaths
     .map((symlinkPath) => [
       `${symlinkPath}/vendor/*`,

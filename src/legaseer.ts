@@ -1,19 +1,20 @@
 #!/usr/bin/env node
 
-import readline from 'readline';
+import readline from 'node:readline';
 import log from 'fancy-log';
 import colors from 'ansi-colors';
 import chokidar from 'chokidar';
 import lockfile from 'proper-lockfile';
-import { getPhpIgnorePaths, getPhpWatchPaths } from './getPhpWatchPaths';
-import { queue } from './hashQueue';
-import { composerDumpAutoload } from './composerDumpAutoload';
-import { lintPhpSyntax } from './lintPhpSyntax';
-import { setupSymlinks } from './setupSymlinks';
-import { teardownSymlinks } from './teardownSymlinks';
-import { compileLess, compileAllLess } from './compileLess';
-import paths from './paths';
-import { writeCompiledFlag } from './writeCompiledFlag';
+import { globby } from 'globby';
+import { getPhpIgnorePaths, getPhpWatchPaths } from './getPhpWatchPaths.js';
+import { queue } from './hashQueue.js';
+import { composerDumpAutoload } from './composerDumpAutoload.js';
+import { lintPhpSyntax } from './lintPhpSyntax.js';
+import { setupSymlinks } from './setupSymlinks.js';
+import { teardownSymlinks } from './teardownSymlinks.js';
+import { compileLess, compileAllLess } from './compileLess.js';
+import paths from './paths.js';
+import { writeCompiledFlag } from './writeCompiledFlag.js';
 
 function isNodeError(error: unknown): error is NodeJS.ErrnoException {
   return (
@@ -40,13 +41,19 @@ async function main() {
   setupSymlinks();
 
   const phpPaths = await getPhpWatchPaths();
-  const phpIgnorePaths = await getPhpIgnorePaths();
+  const phpIgnorePaths = (await getPhpIgnorePaths()).map((path) => `!${path}`);
   const lessFiles = new Set<string>();
+
   let ready = false;
 
+  const watchPaths = await globby([
+    ...phpPaths,
+    ...paths.less,
+    ...phpIgnorePaths,
+  ]);
+
   const watcher = chokidar
-    .watch([...phpPaths, ...paths.less], {
-      ignored: phpIgnorePaths,
+    .watch(watchPaths, {
       followSymlinks: true,
     })
     .on('ready', () => {

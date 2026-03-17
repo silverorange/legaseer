@@ -1,5 +1,5 @@
+import { execFile } from 'node:child_process';
 import log from 'fancy-log';
-import { execFile } from 'child_process';
 
 export function composerDumpAutoload() {
   return new Promise<void>((resolve, reject) => {
