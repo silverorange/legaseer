@@ -1,7 +1,7 @@
 {
   "name": "silverorange-legaseer",
   "type": "module",
-  "version": "1.0.8",
+  "version": "1.0.9",
   "description": "silverorange legacy file watcher",
   "repository": {
     "type": "git",
