@@ -1,5 +1,5 @@
 {
-  "name": "silverorange-legaseer",
+  "name": "@silverorange-inc/legaseer",
   "type": "module",
   "version": "1.0.9",
   "description": "silverorange legacy file watcher",
@@ -16,6 +16,9 @@
   },
   "engines": {
     "node": "^22.14.0"
+  },
+  "publishConfig": {
+    "access": "public"
   },
   "scripts": {
     "start": "tsx src/legaseer.ts",
