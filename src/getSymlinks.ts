@@ -1,3 +1,4 @@
+import * as z from 'zod';
 import minimist from 'minimist';
 
 export function getSymlinks() {
@@ -6,6 +7,12 @@ export function getSymlinks() {
     default: { symlinks: '' },
   };
 
-  const options = minimist(process.argv.slice(2), knownOptions);
-  return options.symlinks;
+  try {
+    return z
+      .object({ symlinks: z.string() })
+      .transform(({ symlinks: value }) => value.split(','))
+      .parse(minimist(process.argv.slice(2), knownOptions));
+  } catch {
+    return [];
+  }
 }

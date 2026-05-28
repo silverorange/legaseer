@@ -1,16 +1,14 @@
-import { execFile } from 'node:child_process';
 import log from 'fancy-log';
+import { execFile, isExecFileException } from './execFile.js';
 
-export function composerDumpAutoload() {
-  return new Promise<void>((resolve, reject) => {
-    execFile('composer', ['-q', 'dump-autoload'], (error) => {
-      if (error !== null) {
-        log(`exec error: ${error}`);
-        reject(error);
-      } else {
-        log('Rebuilt PHP autoloader map.');
-        resolve();
-      }
-    });
-  });
+export async function composerDumpAutoload() {
+  try {
+    await execFile('composer', ['-q', 'dump-autoload']);
+    log('Rebuilt PHP autoloader map.');
+  } catch (error) {
+    if (isExecFileException(error)) {
+      log(`exec error: ${error.message}`);
+    }
+    throw error;
+  }
 }

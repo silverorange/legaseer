@@ -1,11 +1,11 @@
 import fs from 'node:fs';
 import { relative, dirname } from 'node:path';
-import { execFile } from 'node:child_process';
 import log from 'fancy-log';
 import colors from 'ansi-colors';
 import postcss from 'postcss';
 import postcssRebaseURL from '@csstools/postcss-rebase-url';
 import paths from './paths.js';
+import { execFile, isExecFileException } from './execFile.js';
 
 const fsPromises = fs.promises;
 
@@ -102,46 +102,32 @@ function rebaseUrls(css: string, from: string, to: string) {
   });
 }
 
-function compileLessFile(fileName: string) {
-  return new Promise<void>((resolve, reject) => {
-    execFile('lessc', [fileName], (error, stdout, stderr) => {
-      if (error !== null) {
-        if (error.code === 1) {
-          log('Error compiling', colors.red(fileName));
-          console.error();
-          console.error(stderr.trim());
-          console.error();
-          resolve();
-        } else {
-          console.error(stderr);
-          log(`exec error: ${error}`);
-          reject(error);
-        }
+async function compileLessFile(fileName: string) {
+  try {
+    const { stdout } = await execFile('lessc', [fileName]);
+    const outputFileName = getOutputFileName(fileName);
+    const css = await rebaseUrls(stdout, fileName, outputFileName);
+
+    await fsPromises.mkdir(dirname(outputFileName), { recursive: true });
+    await fsPromises.writeFile(outputFileName, css.toString());
+
+    log('Compiled', colors.cyan(fileName), 'to', colors.cyan(outputFileName));
+  } catch (error) {
+    if (isExecFileException(error)) {
+      if (error.code === 1) {
+        log('Error compiling', colors.red(fileName));
+        console.error();
+        console.error((error.stderr ?? '').trim());
+        console.error();
       } else {
-        const outputFileName = getOutputFileName(fileName);
-        rebaseUrls(stdout, fileName, outputFileName).then((css) => {
-          fs.mkdir(dirname(outputFileName), { recursive: true }, (dirError) => {
-            if (dirError) {
-              reject(dirError);
-            } else {
-              fs.writeFile(outputFileName, css.toString(), (writeError) => {
-                if (writeError) {
-                  reject(writeError);
-                }
-                log(
-                  'Compiled',
-                  colors.cyan(fileName),
-                  'to',
-                  colors.cyan(outputFileName),
-                );
-                resolve();
-              });
-            }
-          });
-        });
+        console.error(error.stderr);
+        log(`exec error: ${error.message}`);
+        throw error;
       }
-    });
-  });
+    } else {
+      throw error;
+    }
+  }
 }
 
 export function compileAllLess(lessFiles: Set<string>) {

@@ -16,7 +16,7 @@ async function runQueued(key: string) {
       console.error(e);
     }
     hashRunning[key] = undefined;
-    runQueued(key);
+    await runQueued(key);
   }
 }
 
@@ -24,5 +24,7 @@ export function queue<T>(key: string, promise: () => Promise<T>) {
   if (!hashQueue[key]) {
     hashQueue[key] = promise;
   }
-  runQueued(key);
+
+  // intentionally do not await, we fire and forget
+  void runQueued(key);
 }

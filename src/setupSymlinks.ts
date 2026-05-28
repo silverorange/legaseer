@@ -11,8 +11,7 @@ import { getSymlinks } from './getSymlinks.js';
  *
  * @param symlinks
  */
-function setup(symlinks: string) {
-  const packages = symlinks.split(',');
+function setup(packages: string[]) {
   packages.forEach((packageName) => {
     let packageFound = false;
     paths.vendors.forEach((vendorPath) => {
