@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
-import readline from 'node:readline';
+import readline, { type Key } from 'node:readline';
 import log from 'fancy-log';
 import colors from 'ansi-colors';
 import chokidar from 'chokidar';
@@ -113,11 +113,11 @@ async function main() {
   }
 
   process.on('SIGINT', () => {
-    shutdown();
+    void shutdown();
   });
 
   process.on('SIGTERM', () => {
-    shutdown();
+    void shutdown();
   });
 
   // Handling SIGINT when process is bootstrapped from Yarn does not work
@@ -133,11 +133,11 @@ async function main() {
     process.stdin.setRawMode(true);
   }
 
-  process.stdin.on('keypress', (_, key) => {
+  process.stdin.on('keypress', (_, key: Key) => {
     if (key.ctrl && key.name === 'c') {
-      shutdown();
+      void shutdown();
     }
   });
 }
 
-main();
+await main();
