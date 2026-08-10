@@ -18,6 +18,8 @@ export function lintPhpSyntax(fileName: string) {
 
         // There were linting errors, capture those.
         stdout = error.stdout ?? '';
+      } else {
+        throw error;
       }
     }
 
