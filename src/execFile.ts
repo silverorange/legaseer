@@ -1,9 +1,10 @@
-import type { ExecFileException } from 'node:child_process';
+import {
+  execFile as execFileCallback,
+  type ExecFileException,
+} from 'node:child_process';
 import { promisify } from 'node:util';
 
-export const execFile = promisify(
-  (await import('node:child_process')).execFile,
-);
+export const execFile = promisify(execFileCallback);
 
 export function isExecFileException(
   error: unknown,
