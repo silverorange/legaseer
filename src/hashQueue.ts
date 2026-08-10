@@ -7,7 +7,11 @@ const hashRunning: Queue = {};
  * @param {string} key
  */
 async function runQueued(key: string) {
-  if (hashQueue[key] && !hashRunning[key]) {
+  if (hashRunning[key]) {
+    return;
+  }
+
+  while (hashQueue[key]) {
     hashRunning[key] = hashQueue[key];
     hashQueue[key] = undefined;
     try {
@@ -16,7 +20,6 @@ async function runQueued(key: string) {
       console.error(e);
     }
     hashRunning[key] = undefined;
-    await runQueued(key);
   }
 }
 
