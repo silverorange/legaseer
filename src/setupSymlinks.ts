@@ -8,8 +8,6 @@ import { getSymlinks } from './getSymlinks.js';
 /**
  * Replaces vendor package directories with symlinks that point to active
  * package working directories instead of installed composer packages
- *
- * @param symlinks
  */
 function setup(packages: string[]) {
   packages.forEach((packageName) => {
