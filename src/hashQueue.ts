@@ -3,9 +3,6 @@ type Queue = Record<string, (() => Promise<unknown>) | undefined>;
 const hashQueue: Queue = {};
 const hashRunning: Queue = {};
 
-/**
- * @param {string} key
- */
 async function runQueued(key: string) {
   if (hashRunning[key]) {
     return;

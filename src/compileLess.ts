@@ -29,10 +29,6 @@ function getRelativePath(from: string, to: string) {
   return relative(from.split('/').slice(0, -1).join('/'), to);
 }
 
-/**
- * @param {string} a
- * @param {string} b
- */
 function alphabeticalSort(a: string, b: string) {
   if (a > b) {
     return 1;
